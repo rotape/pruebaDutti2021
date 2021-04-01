@@ -1,37 +1,27 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
-import { PrincipalModule } from './components/principal/principal.module';
-
 // Components
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { PrincipalComponent } from './components/principal/principal.component';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-
+import { LoginModule } from './Login/login.module';
+import { PrincipalModule } from './principal/principal.module';
+import { metaReducers, reducers } from './Shared/reducers';
+import { SharedModule } from './Shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    PrincipalComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
     PrincipalModule,
+    LoginModule,
+    SharedModule.forRoot(),
     StoreModule.forRoot(reducers, {
-      metaReducers
-    })
-
+      metaReducers,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

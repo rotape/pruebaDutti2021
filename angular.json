@@ -127,6 +127,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "massimo-dutti"
+    }
+  },
+  "defaultProject": "massimo-dutti",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
