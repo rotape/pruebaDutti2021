@@ -3,11 +3,11 @@ import { ShipList } from '../../models/shipsList.model';
 import * as fromShips from '../actions/ships.action';
 
 export interface State {
-  shipList: ShipList[];
+  shipList: ShipList;
 }
 
 const initialState: State = {
-  shipList: [],
+  shipList: null,
 };
 
 export const reducer = createReducer(

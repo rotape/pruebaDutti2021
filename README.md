@@ -33,13 +33,3 @@ Run `npm run start` for a dev server.
 Navigate to `http://localhost:4200/`.
 
 # Notas del desarrollador:
-
--Para mejor ordenación y escalabilidad
-Views,
--pages
-Shared
--Services
--Components
--Store
-
-Autenticación de usuario, implementado llamada a servicio proveedor de usuariosMock,

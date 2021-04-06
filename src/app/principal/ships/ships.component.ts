@@ -9,8 +9,7 @@ import * as fromStore from '../../Shared/store';
   styleUrls: ['./ships.component.scss'],
 })
 export class ShipsComponent implements OnInit {
-  public dataList: any = [];
-  public shipsList$: Observable<ShipList[]>;
+  public shipsList$: Observable<ShipList>;
 
   constructor(private store: Store<fromStore.SharedState>) {}
 
@@ -18,7 +17,8 @@ export class ShipsComponent implements OnInit {
     this.loadShips();
   }
 
-  loadShips() {
+  loadShips(url?) {
+    //TO DO: Implementar url en LoadShipsAction props y adaptar el servicio
     this.store.dispatch(fromStore.LoadShipsAction());
     this.shipsList$ = this.store.pipe(select(fromStore.getShips));
   }

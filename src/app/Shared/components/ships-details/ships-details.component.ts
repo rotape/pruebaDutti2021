@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShipList } from '../../models/shipsList.model';
 declare var $: any;
 
@@ -9,6 +9,7 @@ declare var $: any;
 })
 export class ShipsDetailsComponent implements OnInit {
   @Input() dataList: ShipList;
+  @Output() changePage: EventEmitter<string> = new EventEmitter<string>();
   config: any;
   shipId: string = '';
   url: string = '';
@@ -20,7 +21,6 @@ export class ShipsDetailsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.dataList);
     if (this.dataList) {
       this.config = {
         itemsPerPage: 5,
@@ -38,6 +38,8 @@ export class ShipsDetailsComponent implements OnInit {
 
   pageChanged(event) {
     this.config.currentPage = event;
+    const url = `http://swapi.dev/api/starships/?page=${event}`;
+    this.changePage.emit(url);
   }
 
   openDetails(details) {
