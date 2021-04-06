@@ -41,3 +41,5 @@ Shared
 -Services
 -Components
 -Store
+
+Autenticación de usuario, implementado llamada a servicio proveedor de usuariosMock,
