@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ShipsService } from 'src/app/Shared/services/ships.service';
-
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { ShipList } from 'src/app/Shared/models/shipsList.model';
+import * as fromStore from '../../Shared/store';
 @Component({
   selector: 'app-ships',
   templateUrl: './ships.component.html',
@@ -8,13 +10,16 @@ import { ShipsService } from 'src/app/Shared/services/ships.service';
 })
 export class ShipsComponent implements OnInit {
   public dataList: any = [];
+  public shipsList$: Observable<ShipList[]>;
 
-  constructor(private shipsService: ShipsService) {}
+  constructor(private store: Store<fromStore.SharedState>) {}
 
   ngOnInit(): void {
-    this.shipsService.getShips().subscribe((ships) => {
-      this.dataList = ships;
-      console.log('SHIPS -->', this.dataList.results);
-    });
+    this.loadShips();
+  }
+
+  loadShips() {
+    this.store.dispatch(fromStore.LoadShipsAction());
+    this.shipsList$ = this.store.pipe(select(fromStore.getShips));
   }
 }

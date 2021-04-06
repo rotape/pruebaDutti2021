@@ -1,3 +1,3 @@
-<div class="container">
-        <ships-details [dataList]="dataList"></ships-details>
+<div class="container" *ngIf="(shipsList$ | ngrxPush).length !== 0">
+  <ships-details [dataList]="shipsList$ | ngrxPush"></ships-details>
 </div>
