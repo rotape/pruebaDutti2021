@@ -1,9 +1,6 @@
-<div
-  class="container"
-  *ngIf="shipsList$ && (shipsList$ | ngrxPush).length !== 0"
->
+<div class="container" *ngIf="shipsList$ | async">
   <ships-details
     (changePage)="loadShips($event)"
-    [dataList]="shipsList$ | ngrxPush"
+    [dataList]="shipsList$ | async"
   ></ships-details>
 </div>
