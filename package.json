@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~11.0.9",
     "@angular/platform-browser-dynamic": "~11.0.9",
     "@angular/router": "~11.0.9",
+    "@angular/service-worker": "~11.0.9",
     "@ngrx/component": "^11.1.0",
     "@ngrx/effects": "^11.0.1",
     "@ngrx/entity": "^11.0.1",

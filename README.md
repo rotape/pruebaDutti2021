@@ -33,3 +33,8 @@ Run `npm run start` for a dev server.
 Navigate to `http://localhost:4200/`.
 
 # Notas del desarrollador:
+
+-Para evitar la saturación del servidor entiendo que lo necesario es evitar llamadas HTTP no necesarias, y en todo caso cachear los datos que sean posibles seteando la app como PWA mediante Service Workers:
+->"ng build" --> "cd dist/massimo-dutti" --> "http-service" --> open Browser on localhost:8080"
+
+-Otras optimizaciones para accelerar el aplicativo podrian ser setear change detection de Angular en onPush y marcar manualmente cuando deve aplicarse la detección de cambios.

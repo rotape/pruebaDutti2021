@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { LoginModule } from './Login/login.module';
 import { PrincipalModule } from './principal/principal.module';
 import { SharedModule } from './Shared/shared.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -26,6 +28,12 @@ import { SharedModule } from './Shared/shared.module';
       }
     ),
     EffectsModule.forRoot([]),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
