@@ -7,6 +7,12 @@ import { User } from '../models/users.model';
 export class AuthService {
   constructor() {}
 
+  saveUserListToLocalStorage(user: User): void {
+    const usersList = JSON.parse(localStorage.getItem('UsersList'));
+    usersList.push(user);
+    localStorage.setItem('UsersList', JSON.stringify(usersList));
+  }
+
   saveUserToLocalStorage(user: User): void {
     const u = user.json();
     localStorage.setItem('User', JSON.stringify(u));
