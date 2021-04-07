@@ -1,44 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-// JSON
-import usersList from 'src/assets/json/users.json';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-
   registerForm: FormGroup;
-  dataLoading: boolean = false;
+  dataLoading = false;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
-  ) { }
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      first_name: [ '', [Validators.required, Validators.minLength(3)]],
-      last_name: [ '', [Validators.required, Validators.minLength(3)]],
-      username: [ '', [Validators.required, Validators.minLength(3)]],
-      email: [ '', [Validators.required, Validators.minLength(6)]],
-
-    })
+      first_name: ['', [Validators.required, Validators.minLength(3)]],
+      last_name: ['', [Validators.required, Validators.minLength(3)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.minLength(6)]],
+    });
   }
 
   registerUser() {
-    if (this.registerForm.invalid) { return }
-    // TODO : Falta integrar el servicio para registrar al usuario
-    // JSON simulando usuarios
-    var userLogin = this.registerForm.value;
-    usersList.push(userLogin)
-    console.log('User Register -->', usersList)
-    this.router.navigate(['/principal/ships'])
-
+    if (this.registerForm.invalid) {
+      return;
+    }
+    const userLogin = this.registerForm.value;
+    this.authService.saveUserListToLocalStorage(userLogin);
+    this.router.navigate(['/principal/ships']);
   }
-
 }
