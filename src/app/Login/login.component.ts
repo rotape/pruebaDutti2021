@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 // JSON
 // import usersList from 'src/assets/json/users.json';
 import { User } from '../Shared/models/users.model';
@@ -12,12 +14,14 @@ import { UsersService } from '../Shared/services/users.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   dataLoading = false;
   users: User[];
   unregistered = false;
   invalid = false;
+  registeredUser$: Observable<User[]>;
+  subs: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -32,22 +36,31 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
+
+  ngOnDestroy() {
+    this.subs.forEach((sub) => sub.unsubscribe());
+  }
   loginUser() {
     if (this.loginForm.invalid) {
       return;
     }
-    // TODO : Falta integrar el servicio para autentificar al usuario
-    // JSON simulando usuarios
-    //Implement logic into the auth service
-    const userLogin = this.loginForm.value.username;
-    this.usersService.getUsersList().subscribe((userList: User[]) => {
-      const filterJson = userList.filter((user) => user.username === userLogin);
-      if (filterJson.length > 0) {
-        this.authService.saveUserToLocalStorage(filterJson[0]);
-        this.router.navigate(['/principal/ships']);
-      } else {
-        this.unregistered = true;
-      }
+    // Implement logic into the auth service
+    // set user into the localStorage
+    this.registeredUser$ = this.usersService.getUsersList().pipe(
+      switchMap((res: User[]) => {
+        const filteredResult = res.filter(
+          (user: User) => user.username === this.loginForm.value.username
+        );
+        if (filteredResult.length) {
+          this.authService.saveUserToLocalStorage(filteredResult[0]);
+          this.router.navigate(['/principal/ships']);
+        }
+        return [filteredResult];
+      })
+    );
+    const sub = this.registeredUser$.subscribe((res: User[]) => {
+      this.unregistered = res.length === 0;
     });
+    this.subs.push(sub);
   }
 }

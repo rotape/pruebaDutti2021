@@ -8,7 +8,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { COMPONENTS } from './components';
 import { SERVICES } from './services';
 import * as fromStore from './store';
-import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
@@ -17,7 +16,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    ReactiveComponentModule,
     StoreModule.forFeature('shared', fromStore.SharedReducer),
     EffectsModule.forFeature([fromStore.ShipsEffects]),
   ],
@@ -25,7 +23,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
     ...COMPONENTS,
     FormsModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
     RouterModule,
     CommonModule,
   ],
